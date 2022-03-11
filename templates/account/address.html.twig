@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes adresses
+{% endblock %}
+
+{% block content %}
+
+	<a href="{{path('account_address-add')}}" class="btn btn-info float-end mt-2">Ajouter une adresse</a>
+
+	<h1 class="mt-3">
+		Mes adresses</h1>
+
+	<p>Dans cet espace vous pouvez gérer vos adresses</p>
+	<a href="{{path('account')}}">Retour</a>
+
+	<hr>
+
+	{% if app.user.addresses|length==0 %}
+		<h2>
+			<span class="badge bg-secondary">Vous avez aucune adresse enregistrée</span>
+		</h2>
+	{% else %}
+		{% for addresse in app.user.addresses %}
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">{{addresse.name}}</h5>
+							<p class="card-text">{{addresse.firstName}}
+								{{addresse.lastName}}</p>
+							<p class="card-text">{{addresse.address}}</p>
+							<p class="card-text">{{addresse.postal}}</p>
+							<p class="card-text">{{addresse.city}}</p>
+							<p class="card-text">{{addresse.country}}</p>
+							<p class="card-text">{{addresse.phone}}</p>
+							<a href="{{path('account_address_edit',{'id':addresse.id})}}" class="btn btn-success">Modifier</a>
+							<a href="{{path('account_address_delete',{'id':addresse.id})}}" class="btn btn-danger" onclick="return confirm('Êtes vous sûr de vouloir supprimer l\'adresse  {{addresse.name}}')">Supprimer</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		{% endfor %}
+
+	{% endif %}
+
+
+{% endblock %}

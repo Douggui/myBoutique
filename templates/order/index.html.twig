@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande -Ma boutique
+{% endblock %}
+
+{% block content %}
+	<h1 class="mt-4">Je passe ma commande</h1>
+	<p>Choisissez-vos préférences avant de passer votre commande</p>
+	<hr>
+
+	<div class=" row mt-3">
+		<div class="col-md-6">
+			<b>Choisir l'adresse de livraison</b><br>
+			{% set formHTML %}
+
+			{{form(form)}}
+
+				{% endset %}
+				{{formHTML | replace({'[br]': '<br>','&lt;div&gt;':'','&lt;/div&gt;':''}) | raw}}
+			</div>
+
+
+			<div class="col-md-6">
+				<b>Récapitulatif de la commande</b><br>
+
+				<table class="table table-striped">
+
+					<thead>
+						<tr>
+							<th scope="col">Produit</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Quantité</th>
+							<th scope="col">Prix</th>
+							<th scope="col">Total</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{% set total= null %}
+
+						{% for product in productsCart %}
+							{% set total= total+((product.quantity)*(product.product.price)) %}
+
+							<tr>
+								<th scope="row"><img src="/uploads/{{product.product.illustration}}" alt="{{product.product.name}}" style="height:100px"></th>
+								<td>{{product.product.name}}</td>
+								<td>
+
+									{{product.quantity}}
+
+								</td>
+								<td>{{(product.product.price)/100|number_format(2)}}
+									€</td>
+								<td>{{((product.quantity)*(product.product.price))/100|number_format(2)}}
+									€</td>
+
+
+							</tr>
+						</td</tr>
+
+					{% endfor %}
+
+				</tbody>
+			</table>
+
+
+			<div class="text-end">
+
+				<p>Nombre de produit :{{productsCart|length}}</p>
+				<p>Prix totale:
+					{{(total/100) |format_currency("EUR") }}
+				</p>
+
+			</div>
+
+
+		</div>
+
+	</div>
+
+
+{% endblock %}

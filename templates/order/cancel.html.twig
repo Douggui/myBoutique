@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de paiment
+{% endblock %}
+
+{% block content %}
+	<h2 class="mt-3">Erreur de paiment
+	</h2>
+
+	<p>Votre paimen pour la commande n°{{order.reference}}
+		a échoué
+	</p><br>
+	<a class="btn btn-info" href="{{path('order')}}">Réessayer</a>
+
+{% endblock %}

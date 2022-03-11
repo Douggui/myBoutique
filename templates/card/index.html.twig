@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier
+{% endblock %}
+
+{% block content %}
+
+	<h1 class="mt-5">Mon panier</h1>
+
+
+	{% if productsCart|length >0 %}
+		<p>
+			Tous les produits ajouter à votre panier</p>
+
+		<div class="text-end">
+			<a class="btn  " style="background-color:#530E53;color:white" href="{{path('remove_cart')}}" role="button">Vider le panier
+				<i class="far fa-trash-alt"></i>
+			</a>
+
+		</div>
+
+		<hr>
+		<table class="table table-striped">
+
+			<thead>
+				<tr>
+					<th scope="col">Produit</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Quantité</th>
+					<th scope="col">Prix</th>
+					<th scope="col">Total</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set total= null %}
+
+				{% for product in productsCart %}
+					{% set total= total+((product.quantity)*(product.product.price)) %}
+
+					<tr>
+						<th scope="row"><img src="/uploads/{{product.product.illustration}}" alt="{{product.product.name}}" style="height:100px"></th>
+						<td>{{product.product.name}}</td>
+						<td>
+							<a class="btn" href="{{path('decrease_product',{'id':product.product.id})}}" role="button">
+								<i class="fas fa-minus" style="color:#530E53"></i>
+							</a>
+							{{product.quantity}}
+							<a class="btn " href="{{path('add_to_cart',{'id':product.product.id})}}" role="button">
+								<i class="fas fa-plus" style="color:#530E53"></i>
+							</a>
+
+						</td>
+						<td>{{(product.product.price)/100|number_format(2)}}
+							€</td>
+						<td>{{((product.quantity)*(product.product.price))/100|number_format(2)}}
+							€</td>
+
+						<td>
+							<a class="btn " href="{{path('delete_product',{'id':product.product.id})}}" role="button">
+								<i class="fas fa-trash-alt" style="color:#530E53"></i>
+							</a>
+						</td>
+					</tr>
+				</td</tr>
+
+			{% endfor %}
+
+		</tbody>
+	</table>
+
+	<div class="text-end">
+
+		<p>Nombre de produit :{{productsCart|length}}</p>
+		<p>Prix totale:
+			{{(total/100) |format_currency("EUR") }}
+		</p>
+
+	</div>
+
+
+	<a class="btn  col-12" style="background-color:#530E53;color:white" href="{{path('order')}}" role="button">Valider le panier
+
+	</a>
+{% else %}
+	<div class=" text-center">
+		<h2>
+			Votre panier est vide
+		</h2>
+	</div>
+{% endif %}{% endblock %}

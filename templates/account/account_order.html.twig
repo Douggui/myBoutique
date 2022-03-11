@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes
+{% endblock %}
+
+{% block content %}
+	<h1>Mes commandes</h1>
+	<p>dans cet espaces vous pouvez retrouvez l'historique de vos commandes</p>
+	<a href="{{path('account')}}">retour</a>
+
+	{{ dump(orders) }}
+
+	<table class="table table-dark table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Réference</th>
+				<th scope="col">Passé le
+				</th>
+				<th scope="col">Nombre de produit</th>
+				<th scope="col">Total</th>
+				<th scope="col">Détails</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for order in orders %}
+
+
+				<tr>
+					<th scope="row">{{order.reference}}</th>
+					<td>{{order.createdAt|date('d/m/Y')}}</td>
+					<td>{{order.orderDetails|length}}</td>
+					<td>{{(order.carrier.price + order.total)/100 |number_format(2)}}</td>
+					<td>
+						<a href="{{path('account_order_show',{'reference':order.reference})}}" class="btn btn-outline-dark" style="color:white"><i class="fas fa-eye"></i>Voir</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

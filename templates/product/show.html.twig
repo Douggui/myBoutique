@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{product.name}}-ma boutique
+{% endblock %}
+
+{% block content %}
+
+	<h1 class="mt-3">{{product.name}}</h1>
+	<div class="row">
+		<div class="col-md-5">
+			<img src="/uploads/{{product.illustration}}" alt="{{product.name}}" class="img-fluid">
+			
+				<div class="alert-info mt-2 col-8">
+
+					{{product.comments|length}}
+					commentaire:
+					{% include "partials/rating.html.twig" with {'rating':product.getAvgRating()} %}
+
+
+				
+			</div>
+
+			<h3>Commentaire des utilisateurs</h3>
+			{% if product.comments|length>0 %}
+				{% for comment in product.comments %}
+
+					<div class="alert-light mt-2">
+						<p>
+							<i class="fas fa-user"></i>
+							{{comment.user.firstName}}</p>
+
+						<p>
+							{% include "partials/rating.html.twig" with {'rating': comment.rating} %}
+
+						</p>
+						<p>{{comment.content}}</p>
+					
+					</div>
+
+				{% endfor %}
+			
+				{% else %}
+				<p>Il n'ya pas de comentaire</p>
+			{% endif %}
+			
+
+		</div>
+
+
+		<div class="col-md-7">
+			<h3>
+				{{product.name}}</h3>
+			<p>{{product.description |striptags('<br>') | raw}}</p>
+			<b>{{(product.price/100)  | number_format(2)}}
+				€</b>
+
+			<p>
+				<a href="{{path('add_to_cart',{'id':product.id})}}" class="btn btn-primary mt-3">Ajouter au panier</a>
+			</p>
+		</div>
+
+	</div>
+
+
+{% endblock %}

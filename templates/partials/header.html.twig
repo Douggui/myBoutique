@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{path('home')}}">Boutique</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav me-auto mb-2 mb-md-0">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{{path('product')}}">Produits</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link " href="#">Catégories</a>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav ms-auto mb-2 mb-md-0">
+
+				{% if app.user %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>
+					</li>
+
+
+					<li class="nav-item">
+						<a class="nav-link " href="{{path('account')}}">Mon compte</a>
+					</li>
+
+				{% else %}
+
+
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('app_login')}}">connexion</a>
+					</li>
+
+
+					<li class="nav-item">
+						<a class="nav-link " href="{{path('register')}}">inscription</a>
+					</li>
+
+
+				{% endif %}
+
+				<li class="nav-item">
+					<a class="nav-link " href="{{path('card')}}">
+						<i class="fas fa-cart-arrow-down"></i>
+					</a>
+				</li>
+
+			</ul>
+
+		</div>
+	</div>
+</nav>
+
+{% for key,values in app.flashes %}
+
+
+	<div class="alert alert-{{key}} alert-dismissible fade show mt-3" role="alert">
+
+		{% for value in values %}
+			<strong>{{value}}</strong>
+		{% endfor %}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+
+
+{% endfor %}

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiment de la commande -Ma boutique
+{% endblock %}
+
+{% block content %}
+	<h1 class="mt-4">Récapitulatif de la commande
+	</h1>
+	<p>Vérifier les informations avant de procéder au paiment
+	</p>
+	<hr>
+
+	<div class=" row mt-3">
+
+
+		<div class="col-md-5">
+			<stron>
+				Adresse de livraison
+			</strong>
+			{{order.delivery|replace({'[br]':'<br>'})|raw}}
+			<hr>
+			<stron>
+				Transporter
+			</strong>
+			{{order.carrier.name}}
+
+		</div>
+
+		<div class="col-md-7">
+
+			<table class="table table-striped">
+
+				<thead>
+					<tr>
+						<th scope="col">Produit</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Quantité</th>
+						<th scope="col">Prix</th>
+						<th scope="col">Total</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{% set total= null %}
+
+					{% for product in productsCart %}
+						{% set total= total+((product.quantity)*(product.product.price)) %}
+
+						<tr>
+							<th scope="row"><img src="/uploads/{{product.product.illustration}}" alt="{{product.product.name}}" style="height:100px"></th>
+							<td>{{product.product.name}}</td>
+							<td>
+
+								{{product.quantity}}
+
+							</td>
+							<td>{{(product.product.price)/100|number_format(2)}}
+								€</td>
+							<td>{{((product.quantity)*(product.product.price))/100|number_format(2)}}
+								€</td>
+
+
+						</tr>
+					</td</tr>
+
+				{% endfor %}
+
+			</tbody>
+		</table>
+	</div>
+
+	<div class="text-end">
+
+		<p>Nombre de produit :{{productsCart|length}}</p>
+		<p>Prix totale:
+			{{(total/100) |format_currency("EUR") }}
+		</p>
+
+		<a class="btn btn-success col-4 " href="{{ stripeUrl }}">Payer la commande
+			{{(total/100) |format_currency("EUR") }}</a>
+	</div>
+</div>{% endblock %}

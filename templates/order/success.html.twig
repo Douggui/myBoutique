@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma commande
+{% endblock %}
+
+{% block content %}
+
+
+	{{ dump(productsCart) }}
+
+	<h1 class="mt-3">Confirmation de commande
+	</h1>
+	<p>Votre commande n°{{order.reference}}</p><br>
+	<p>Une confirmation de la commande a été envoyé à l'adresse email:{{order.user.email}}</p>
+	<p>La commande sera livré par
+		{{order.carrier.name}}</p>
+	<p>À l'adresse
+		{{order.delivery | replace({"[br]": "<br>"})|raw }}</p>
+
+
+{% endblock %}

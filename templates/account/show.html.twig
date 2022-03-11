@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma commande
+{% endblock %}
+
+{% block content %}
+
+	<a class="btn btn-dark mt-3"  href="{{path('account_order')}}">retour</a>
+	<h1>Ma commande de réference
+		{{order.reference}}</h1>
+	<p>dans cet espaces vous pouvez retrouvez le détail de votre commande</p>
+	<hr>
+	<strong>Commande passé le
+		{{order.createdAt|date('d/m/Y')}}</strong><br>
+	<strong>Livrée par
+		{{order.carrier.name}}</strong><br>
+	<strong>Détail</strong><br>
+	<stron>Adresse de livraison
+		{{order.delivery|replace({'[br]':'<br>'})|raw}}</strong>
+
+	<div class=" row mt-3">
+
+		<div class="col-md-10">
+
+			<table class="table table-striped">
+
+				<thead>
+					<tr>
+						<th scope="col">Produit</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Commentaire</th>
+						<th scope="col">Quantité</th>
+						<th scope="col">Prix</th>
+						<th scope="col">Total</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{% set total= null %}
+
+					{% for product in order.orderDetails %}
+						{% set total= total+((product.quantity)*(product.product.price)) %}
+
+						<tr>
+							<th scope="row"><img src="/uploads/{{product.product.illustration}}" alt="{{product.product.name}}" style="height:100px"></th>
+							<td>{{product.product.name}}</td>
+							<td><a class="btn " href="{{path('comment_product',{'slug':product.product.slug})}}">Votre commentaire</a></td>
+							<td>
+
+								{{product.quantity}}
+
+							</td>
+							<td>{{(product.product.price)/100|number_format(2)}}
+								€</td>
+							<td>{{((product.quantity)*(product.product.price))/100|number_format(2)}}
+								€</td>
+
+
+						</tr>
+					</td</tr>
+
+				{% endfor %}
+
+			</tbody>
+		</table>
+        <div class="text-end">
+
+
+		<p>Sous totale:
+			{{ (total /100) |format_currency('EUR')  }}
+		</p>
+		<p>Livraison:
+			{{(order.carrier.price/100) |number_format(2)}}
+			€</p>
+		<p>Total:
+			{{ (total/100 + order.carrier.price/100)|format_currency('EUR')}}
+		</p>
+
+
+	</div>
+
+	</div>
+
+	
+
+{% endblock %}
